@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corvelab | Laboratório de engenharia aplicada</title>
+  <meta name="description" content="Corvelab projeta e entrega software, IA e sistemas computacionais para domínios onde precisão técnica não é opcional.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0c;
+      --surface: #111214;
+      --surface-alt: #17181b;
+      --surface-high: #1f2126;
+      --surface-soft: rgba(255, 255, 255, 0.04);
+      --text: #f4f1eb;
+      --text-soft: #bdb7ab;
+      --text-dim: #918b81;
+      --gold: #b09563;
+      --gold-strong: #c9a96e;
+      --line: rgba(255, 255, 255, 0.1);
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+      color-scheme: dark;
+      scroll-behavior: smooth;
+      scroll-padding-top: 6.5rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(176, 149, 99, 0.10), transparent 32%),
+        radial-gradient(circle at right center, rgba(176, 149, 99, 0.06), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+    }
+
+    body {
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(11, 11, 12, 0.72);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      min-height: 5.5rem;
+      padding: 0.75rem 0;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      min-width: 0;
+    }
+
+    .brand-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      min-width: 0;
+    }
+
+    .brand-name {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--gold-strong);
+    }
+
+    .brand-subline {
+      font-size: 0.74rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-cluster {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .lang-switch button {
+      border: 0;
+      background: transparent;
+      color: var(--text-dim);
+      border-radius: 999px;
+      padding: 0.45rem 0.8rem;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      font-weight: 700;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .lang-switch button.is-active {
+      background: var(--gold);
+      color: #1a160f;
+    }
+
+    .email-pill,
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.9rem 1.2rem;
+      border-radius: 999px;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+      font-weight: 700;
+    }
+
+    .email-pill:hover,
+    .button:hover,
+    .email-pill:focus-visible,
+    .button:focus-visible {
+      transform: translateY(-1px);
+    }
+
+    .email-pill {
+      background: var(--gold);
+      color: #1d180d;
+      font-size: 0.82rem;
+      box-shadow: 0 12px 30px rgba(176, 149, 99, 0.14);
+    }
+
+    .button--primary {
+      background: var(--gold);
+      color: #1d180d;
+      box-shadow: 0 12px 30px rgba(176, 149, 99, 0.12);
+    }
+
+    .button--secondary {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(176, 149, 99, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(176, 149, 99, 0.04) 1px, transparent 1px);
+      background-size: 68px 68px;
+      opacity: 0.4;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), transparent 90%);
+      pointer-events: none;
+    }
+
+    .hero-layout {
+      position: relative;
+      z-index: 1;
+      min-height: calc(100vh - 5.5rem);
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+      gap: 2rem;
+      align-items: center;
+      padding: 4.5rem 0 5rem;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 1rem;
+      font-size: 0.76rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 5.2vw, 5rem);
+      max-width: 11ch;
+    }
+
+    .hero-lead,
+    .section-lead,
+    .research-copy p,
+    .hero-panel p,
+    .card-copy,
+    .compliance-copy p,
+    .contact-card p,
+    .footer-copy p {
+      color: var(--text-soft);
+      font-size: 1.04rem;
+    }
+
+    .hero-lead {
+      max-width: 64ch;
+      margin: 1.4rem 0 0;
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, var(--gold-strong), #7a5a2e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-actions,
+    .contact-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .hero-panel {
+      padding: 1.5rem;
+      border-radius: 1.5rem;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+        rgba(17, 18, 20, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-panel-top {
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-panel h2 {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      margin-bottom: 0.9rem;
+      max-width: 11ch;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .metric {
+      padding: 0.9rem 1rem;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .metric strong {
+      display: block;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.1rem;
+      line-height: 1.08;
+      color: var(--gold-strong);
+      margin-bottom: 0.25rem;
+    }
+
+    .metric span {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--text-soft);
+      line-height: 1.4;
+    }
+
+    .logo-shell {
+      display: inline-grid;
+      place-items: center;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(229, 229, 229, 0.88));
+      border: 1px solid rgba(0, 0, 0, 0.18);
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.24);
+      overflow: hidden;
+    }
+
+    .logo-shell--sm {
+      width: 4.25rem;
+      height: 4.25rem;
+      border-radius: 1rem;
+    }
+
+    .logo-shell--md {
+      width: 6.75rem;
+      height: 6.75rem;
+      border-radius: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .logo-shell--lg {
+      width: min(100%, 20rem);
+      aspect-ratio: 1;
+      border-radius: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .logo-image {
+      width: 94%;
+      height: 94%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .section {
+      padding: 5.5rem 0;
+    }
+
+    .section--alt {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 60%), var(--surface);
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .section-header {
+      max-width: 48rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-header h2,
+    .research-copy h2,
+    .compliance-copy h2,
+    .contact-card h2 {
+      font-size: clamp(2.3rem, 4vw, 4rem);
+      margin-bottom: 1rem;
+    }
+
+    .copy-list,
+    .capability-list,
+    .footer-links {
+      margin: 1.5rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .copy-list li,
+    .capability-list li,
+    .footer-links li {
+      position: relative;
+      padding-left: 1.25rem;
+      color: var(--text-soft);
+      margin-bottom: 0.8rem;
+    }
+
+    .copy-list li::before,
+    .capability-list li::before,
+    .footer-links li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.65rem;
+      width: 0.38rem;
+      height: 0.38rem;
+      border-radius: 999px;
+      background: var(--gold);
+      box-shadow: 0 0 0 6px rgba(176, 149, 99, 0.06);
+    }
+
+    .research-stack {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .research-card {
+      padding: 1.4rem;
+      border-radius: 1.25rem;
+      background: var(--surface-alt);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      min-height: 15rem;
+    }
+
+    .research-card--logo {
+      grid-column: span 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      background:
+        linear-gradient(135deg, rgba(176, 149, 99, 0.08), transparent 45%),
+        var(--surface-alt);
+    }
+
+    .card-tag {
+      display: inline-block;
+      margin-bottom: 1rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      font-weight: 700;
+    }
+
+    .research-card h3,
+    .capability-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-copy {
+      margin: 0;
+    }
+
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .capability-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 18rem;
+      padding: 1.5rem;
+      border-radius: 1.3rem;
+      background: var(--surface-alt);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    .capability-card--accent {
+      background:
+        linear-gradient(140deg, rgba(176, 149, 99, 0.14), rgba(176, 149, 99, 0.02) 48%),
+        #1f1b14;
+    }
+
+    .span-4 {
+      grid-column: span 4;
+    }
+
+    .span-5 {
+      grid-column: span 5;
+    }
+
+    .span-6 {
+      grid-column: span 6;
+    }
+
+    .span-7 {
+      grid-column: span 7;
+    }
+
+    .card-index {
+      font-family: "Space Grotesk", sans-serif;
+      color: rgba(255, 255, 255, 0.22);
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .capability-card p {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 1rem;
+    }
+
+    .capability-list {
+      margin-top: auto;
+      padding-top: 1.3rem;
+    }
+
+    .compliance-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .compliance-card {
+      padding: 1.5rem;
+      border-radius: 1.4rem;
+      background: var(--surface-alt);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      display: grid;
+      gap: 1rem;
+    }
+
+    .compliance-item {
+      padding: 1rem 1rem 1rem 3.1rem;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.025);
+      position: relative;
+    }
+
+    .compliance-item::before {
+      content: "";
+      position: absolute;
+      left: 1.1rem;
+      top: 1.25rem;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 0.25rem;
+      background: linear-gradient(135deg, var(--gold-strong), #7a5a2e);
+      box-shadow: 0 0 0 8px rgba(176, 149, 99, 0.06);
+    }
+
+    .compliance-item strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+
+    .compliance-item span {
+      display: block;
+      color: var(--text-soft);
+      font-size: 0.95rem;
+    }
+
+    .contact-card {
+      padding: clamp(1.6rem, 4vw, 3rem);
+      border-radius: 1.6rem;
+      background:
+        linear-gradient(135deg, rgba(176, 149, 99, 0.12), transparent 42%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+        var(--surface-alt);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .footer {
+      padding: 1rem 0 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(0, 0.8fr));
+      gap: 1.5rem;
+      padding: 3rem 0 2rem;
+    }
+
+    .footer-copy p {
+      margin: 1rem 0 1.2rem;
+      max-width: 34rem;
+    }
+
+    .footer-title {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .footer-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gold-strong);
+      font-weight: 700;
+    }
+
+    .footer-bottom {
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-dim);
+      font-size: 0.82rem;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 1080px) {
+      .hero-layout,
+      .section-grid,
+      .compliance-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        max-width: 12ch;
+      }
+
+      .research-card--logo {
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .header-row {
+        align-items: flex-start;
+      }
+
+      .nav-cluster,
+      .nav-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .nav-links {
+        width: 100%;
+        order: 2;
+        padding-top: 0.25rem;
+      }
+
+      .metric-row,
+      .research-stack,
+      .capability-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .span-4,
+      .span-5,
+      .span-6,
+      .span-7,
+      .research-card--logo {
+        grid-column: auto;
+      }
+
+      .research-card--logo {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 1.25rem, 100%);
+      }
+
+      .hero-layout {
+        min-height: auto;
+        padding-top: 3.4rem;
+      }
+
+      .brand-subline {
+        white-space: normal;
+      }
+
+      .email-pill,
+      .button {
+        width: 100%;
+      }
+
+      .nav-actions {
+        gap: 0.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="container header-row">
+      <a class="brand-link" href="#top" aria-label="Corvelab">
+        <span class="logo-shell logo-shell--sm" aria-hidden="true">
+          <img class="logo-image" data-inline-logo alt="Corvelab logo">
+        </span>
+        <span class="brand-copy">
+          <span class="brand-name">Corvelab</span>
+          <span class="brand-subline" data-i18n="brandSubline">Laboratório de engenharia aplicada</span>
+        </span>
+      </a>
+
+      <div class="nav-cluster">
+        <div class="nav-links">
+          <a href="#research" data-i18n="navResearch">Pesquisa</a>
+          <a href="#capabilities" data-i18n="navCapabilities">Capacidades</a>
+          <a href="#compliance" data-i18n="navCompliance">Compliance</a>
+          <a href="#contact" data-i18n="navContact">Contato</a>
+        </div>
+
+        <div class="nav-actions">
+          <div class="lang-switch" aria-label="Language selector">
+            <button type="button" data-lang-toggle="pt" aria-pressed="true">PT</button>
+            <button type="button" data-lang-toggle="en" aria-pressed="false">EN</button>
+          </div>
+
+          <a class="email-pill" href="mailto:andre@corvelab.org">andre@corvelab.org</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="container hero-layout">
+      <section>
+        <span class="eyebrow" data-i18n="heroEyebrow">Corvelab · Desde a hipótese até a operação</span>
+        <h1 data-i18n-html="heroTitle">Pesquisa que vira software. <span class="highlight">Software que vira vantagem</span>.</h1>
+        <p class="hero-lead" data-i18n="heroLead">Projetamos e entregamos software, IA e sistemas computacionais para domínios onde precisão técnica não é opcional.</p>
+
+        <div class="hero-actions">
+          <a class="button button--primary" href="#capabilities" data-i18n="heroCtaPrimary">Ver capacidades</a>
+          <a class="button button--secondary" href="mailto:andre@corvelab.org" data-i18n="heroCtaSecondary">Falar com André</a>
+        </div>
+
+      </section>
+
+      <aside class="hero-panel">
+        <div class="hero-panel-top">
+          <span class="eyebrow" data-i18n="heroPanelLabel">Como trabalhamos</span>
+        </div>
+
+        <h2 data-i18n="heroPanelTitle">Do paper ao produto, com rigor de laboratório e entrega de engenharia.</h2>
+        <p data-i18n="heroPanelBody1">Combinamos pesquisa experimental, arquitetura de software e modelagem matemática. O que funciona vai para produção. O que não funciona vira aprendizado documentado.</p>
+
+        <div class="metric-row">
+          <div class="metric">
+            <strong data-i18n="heroMetric1Value">Hipótese</strong>
+            <span data-i18n="heroMetric1Label">Investigação e modelagem experimental</span>
+          </div>
+          <div class="metric">
+            <strong data-i18n="heroMetric2Value">Protótipo</strong>
+            <span data-i18n="heroMetric2Label">Validação técnica antes do compromisso</span>
+          </div>
+          <div class="metric">
+            <strong data-i18n="heroMetric3Value">Produção</strong>
+            <span data-i18n="heroMetric3Label">Deploy, observabilidade e operação contínua</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <section class="section section--alt" id="research">
+      <div class="container section-grid">
+        <div class="research-copy">
+          <span class="eyebrow" data-i18n="researchEyebrow">Pesquisa</span>
+          <h2 data-i18n-html="researchTitle">Pesquisa, engenharia e entrega <span class="highlight">com rigor de laboratório</span>.</h2>
+          <p data-i18n="researchBody1">A Corvelab investiga problemas de fronteira, transforma hipóteses em protótipos testáveis e leva os resultados para produção.</p>
+          <p data-i18n="researchBody2">Atendemos organizações que precisam de software confiável e infraestrutura técnica capaz de sustentar pesquisa contínua.</p>
+          <ul class="copy-list" data-i18n-html="researchList">
+            <li>Pesquisa aplicada orientada a impacto real e validação técnica.</li>
+            <li>Arquiteturas de software e IA desenhadas para ambientes sensíveis e regulados.</li>
+            <li>Integração entre modelagem, dados, automação e operação contínua.</li>
+          </ul>
+        </div>
+
+        <div class="research-stack">
+          <article class="research-card">
+            <span class="card-tag" data-i18n="researchCard1Tag">Linha 01</span>
+            <h3 data-i18n="researchCard1Title">Investigação e experimentação</h3>
+            <p class="card-copy" data-i18n="researchCard1Body">Modelagem, simulação e experimentação para problemas que ainda não têm solução pronta.</p>
+          </article>
+
+          <article class="research-card">
+            <span class="card-tag" data-i18n="researchCard2Tag">Linha 02</span>
+            <h3 data-i18n="researchCard2Title">Do protótipo à plataforma</h3>
+            <p class="card-copy" data-i18n="researchCard2Body">Protótipos que funcionam viram plataformas. Modelos que validam viram produto.</p>
+          </article>
+
+          <article class="research-card">
+            <span class="card-tag" data-i18n="researchCard3Tag">Linha 03</span>
+            <h3 data-i18n="researchCard3Title">Operação em produção</h3>
+            <p class="card-copy" data-i18n="researchCard3Body">Pipelines, observabilidade e governança para manter inovação rodando.</p>
+          </article>
+
+          <article class="research-card">
+            <span class="card-tag" data-i18n="researchCard4Tag">Linha 04</span>
+            <h3 data-i18n="researchCard4Title">Entrega bilíngue</h3>
+            <p class="card-copy" data-i18n="researchCard4Body">Documentação técnica, interfaces e comunicação institucional em português e inglês.</p>
+          </article>
+
+          <article class="research-card research-card--logo">
+            <div>
+              <span class="card-tag" data-i18n="researchCardLogoTag">Etimologia</span>
+              <h3 data-i18n="researchCardLogoTitle">Corve como chamado</h3>
+              <p class="card-copy" data-i18n-html="researchCardLogoBody">Corve é o vocativo latino de <em>corvus</em>: a forma usada para chamar o corvo diretamente. Em Corvelab, essa raiz funciona como um chamado ao conhecimento, à observação e ao experimento.</p>
+            </div>
+            <span class="logo-shell logo-shell--lg" aria-hidden="true">
+              <img class="logo-image" data-inline-logo alt="Corvelab logo">
+            </span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="capabilities">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow" data-i18n="capabilitiesEyebrow">Capacidades</span>
+          <h2 data-i18n="capabilitiesTitle">Sete domínios. Uma abordagem.</h2>
+          <p class="section-lead" data-i18n="capabilitiesLead">Atuação multidisciplinar em setores onde pesquisa, software e precisão técnica precisam caminhar juntos.</p>
+        </div>
+
+        <div class="capability-grid">
+          <article class="capability-card span-6">
+            <div class="card-top">
+              <span class="card-tag" data-i18n="sector1Tag">Domínio 01</span>
+              <span class="card-index">01</span>
+            </div>
+            <h3 data-i18n="sector1Title">Saúde digital e suporte à decisão clínica</h3>
+            <p data-i18n="sector1Body">Plataformas para triagem, gestão assistencial e análise de dados clínicos com integração a ambientes hospitalares.</p>
+            <ul class="capability-list" data-i18n-html="sector1List">
+              <li>Alertas preditivos e triagem orientada a dados.</li>
+              <li>Fluxo de pacientes, leitos e protocolos assistenciais.</li>
+              <li>Integração com prontuários e sistemas hospitalares.</li>
+            </ul>
+          </article>
+
+          <article class="capability-card span-6">
+            <div class="card-top">
+              <span class="card-tag" data-i18n="sector2Tag">Domínio 02</span>
+              <span class="card-index">02</span>
+            </div>
+            <h3 data-i18n="sector2Title">IA jurídica e automação regulatória</h3>
+            <p data-i18n="sector2Body">Sistemas para análise semântica, contratos, jurisprudência, compliance regulatório e apoio operacional no setor jurídico.</p>
+            <ul class="capability-list" data-i18n-html="sector2List">
+              <li>Análise automatizada de contratos e documentos.</li>
+              <li>Busca semântica em legislação e jurisprudência.</li>
+              <li>Monitoramento regulatório e obrigações legais.</li>
+            </ul>
+          </article>
+
+          <article class="capability-card span-7">
+            <div class="card-top">
+              <span class="card-tag" data-i18n="sector3Tag">Domínio 03</span>
+              <span class="card-index">03</span>
+            </div>
+            <h3 data-i18n="sector3Title">Geociências, geofísica e clima</h3>
+            <p data-i18n="sector3Body">Ferramentas de modelagem, visualização e predição para geologia, geofísica, monitoramento atmosférico e análise espacial.</p>
+            <ul class="capability-list" data-i18n-html="sector3List">
+              <li>Modelagem de sub-superfície e interpretação sísmica.</li>
+              <li>Visualização 3D de dados geológicos e geofísicos.</li>
+              <li>Monitoramento climático por sensoriamento remoto.</li>
+            </ul>
+          </article>
+
+          <article class="capability-card capability-card--accent span-5">
+            <div class="card-top">
+              <span class="card-tag" data-i18n="sector4Tag">Domínio 04</span>
+              <span class="card-index">04</span>
+            </div>
+            <h3 data-i18n="sector4Title">Infraestrutura de dados e copilotos inteligentes</h3>
+            <p data-i18n="sector4Body">Ambientes de dados, agentes e copilotos para operações empresariais e científicas com governança e privacidade.</p>
+            <ul class="capability-list" data-i18n-html="sector4List">
+              <li>Assistentes e agentes especializados para times internos.</li>
+              <li>Implantação em nuvem privada ou ambientes controlados.</li>
+              <li>Integração com bases, workflows e documentação técnica.</li>
+            </ul>
+          </article>
+
+          <article class="capability-card span-4">
+            <div class="card-top">
+              <span class="card-tag" data-i18n="sector5Tag">Domínio 05</span>
+              <span class="card-index">05</span>
+            </div>
+            <h3 data-i18n="sector5Title">Simulação numérica e CFD</h3>
+            <p data-i18n="sector5Body">Modelagem computacional de escoamentos, calor, dispersão e sistemas multifásicos para operações industriais e científicas.</p>
+            <ul class="capability-list" data-i18n-html="sector5List">
+              <li>Reservatórios, dutos e processos industriais.</li>
+              <li>Transporte de contaminantes e dispersão atmosférica.</li>
+              <li>Otimização assistida por simulação acoplada a IA.</li>
+            </ul>
+          </article>
+
+          <article class="capability-card span-4">
+            <div class="card-top">
+              <span class="card-tag" data-i18n="sector6Tag">Domínio 06</span>
+              <span class="card-index">06</span>
+            </div>
+            <h3 data-i18n="sector6Title">Bioinformática e análise genômica</h3>
+            <p data-i18n="sector6Body">Pipelines e ferramentas para dados biológicos, variantes, transcriptômica, proteínas e análise computacional em biociências.</p>
+            <ul class="capability-list" data-i18n-html="sector6List">
+              <li>Análise de variantes, sequências e expressão gênica.</li>
+              <li>Predição estrutural e interações moleculares.</li>
+              <li>Pipelines reprodutíveis para dados ômicos.</li>
+            </ul>
+          </article>
+
+          <article class="capability-card span-4">
+            <div class="card-top">
+              <span class="card-tag" data-i18n="sector7Tag">Domínio 07</span>
+              <span class="card-index">07</span>
+            </div>
+            <h3 data-i18n="sector7Title">Computação quântica e algoritmos</h3>
+            <p data-i18n="sector7Body">Pesquisa aplicada em métodos híbridos clássico-quânticos para otimização, simulação, segurança e novos modelos computacionais.</p>
+            <ul class="capability-list" data-i18n-html="sector7List">
+              <li>Algoritmos quânticos para problemas combinatórios.</li>
+              <li>Simulação de materiais e sistemas moleculares.</li>
+              <li>Criptografia pós-quântica e protocolos seguros.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="compliance">
+      <div class="container compliance-grid">
+        <div class="compliance-copy">
+          <span class="eyebrow" data-i18n="complianceEyebrow">Base legal e operação</span>
+          <h2 data-i18n="complianceTitle">Empresa de base tecnológica inovadora</h2>
+          <p data-i18n="complianceBody">Empresa de base tecnológica com foco em P&amp;D experimental, licenciamento de software e consultoria técnica.</p>
+        </div>
+
+        <div class="compliance-card">
+          <div class="compliance-item">
+            <strong data-i18n="complianceItem1Title">LC 182/2021</strong>
+            <span data-i18n="complianceItem1Body">Referência para enquadramento de empresa inovadora.</span>
+          </div>
+
+          <div class="compliance-item">
+            <strong data-i18n="complianceItem2Title">P&amp;D experimental</strong>
+            <span data-i18n="complianceItem2Body">Pesquisa em ciências físicas, naturais e aplicadas.</span>
+          </div>
+
+          <div class="compliance-item">
+            <strong data-i18n="complianceItem3Title">Software customizável</strong>
+            <span data-i18n="complianceItem3Body">Licenciamento, desenvolvimento sob medida e integração.</span>
+          </div>
+
+          <div class="compliance-item">
+            <strong data-i18n="complianceItem4Title">Consultoria técnica</strong>
+            <span data-i18n="complianceItem4Body">Arquitetura, dados, IA e engenharia para organizações e pesquisa.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-card">
+          <span class="eyebrow" data-i18n="contactEyebrow">Contato</span>
+          <h2 data-i18n="contactTitle">Tem um problema técnico difícil?</h2>
+          <p data-i18n="contactLead">Escreva para andre@corvelab.org para discutir pesquisa aplicada, software, IA, simulação ou novos projetos de inovação.</p>
+
+          <div class="contact-actions">
+            <a class="button button--primary" href="mailto:andre@corvelab.org">andre@corvelab.org</a>
+            <a class="button button--secondary" href="#research" data-i18n="contactSecondary">Ver frente de pesquisa</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-copy">
+        <a class="brand-link" href="#top" aria-label="Corvelab">
+          <span class="logo-shell logo-shell--sm" aria-hidden="true">
+            <img class="logo-image" data-inline-logo alt="Corvelab logo">
+          </span>
+          <span class="brand-copy">
+            <span class="brand-name">Corvelab</span>
+            <span class="brand-subline" data-i18n="brandSubline">Laboratório de engenharia aplicada</span>
+          </span>
+        </a>
+        <p data-i18n="footerSummary">Um laboratório de engenharia aplicada para organizações que constroem na fronteira técnica.</p>
+        <a class="footer-email" href="mailto:andre@corvelab.org">andre@corvelab.org</a>
+      </div>
+
+      <div>
+        <div class="footer-title" data-i18n="footerNavTitle">Navegação</div>
+        <ul class="footer-links">
+          <li><a href="#research" data-i18n="navResearch">Pesquisa</a></li>
+          <li><a href="#capabilities" data-i18n="navCapabilities">Capacidades</a></li>
+          <li><a href="#compliance" data-i18n="navCompliance">Compliance</a></li>
+          <li><a href="#contact" data-i18n="navContact">Contato</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-title" data-i18n="footerFocusTitle">Áreas</div>
+        <ul class="footer-links">
+          <li><span data-i18n="footerFocus1">IA aplicada</span></li>
+          <li><span data-i18n="footerFocus2">P&amp;D experimental</span></li>
+          <li><span data-i18n="footerFocus3">Simulação e modelagem</span></li>
+          <li><span data-i18n="footerFocus4">Infraestrutura de dados</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <span data-i18n="footerRights">© 2026 Corvelab. Empresa de base tecnológica inovadora. Todos os direitos reservados.</span>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      pt: {
+        metaTitle: "Corvelab | Laboratório de engenharia aplicada",
+        metaDescription: "Corvelab projeta e entrega software, IA e sistemas computacionais para domínios onde precisão técnica não é opcional.",
+        brandSubline: "Laboratório de engenharia aplicada",
+        navResearch: "Pesquisa",
+        navCapabilities: "Capacidades",
+        navCompliance: "Compliance",
+        navContact: "Contato",
+        heroEyebrow: "Corvelab · Desde a hipótese até a operação",
+        heroTitle: "Pesquisa que vira software. <span class=\"highlight\">Software que vira vantagem</span>.",
+        heroLead: "Projetamos e entregamos software, IA e sistemas computacionais para domínios onde precisão técnica não é opcional.",
+        heroCtaPrimary: "Ver capacidades",
+        heroCtaSecondary: "Falar com André",
+        heroPanelLabel: "Como trabalhamos",
+        heroPanelTitle: "Do paper ao produto, com rigor de laboratório e entrega de engenharia.",
+        heroPanelBody1: "Combinamos pesquisa experimental, arquitetura de software e modelagem matemática. O que funciona vai para produção. O que não funciona vira aprendizado documentado.",
+        heroMetric1Value: "Hipótese",
+        heroMetric1Label: "Investigação e modelagem experimental",
+        heroMetric2Value: "Protótipo",
+        heroMetric2Label: "Validação técnica antes do compromisso",
+        heroMetric3Value: "Produção",
+        heroMetric3Label: "Deploy, observabilidade e operação contínua",
+        researchEyebrow: "Pesquisa",
+        researchTitle: "Pesquisa, engenharia e entrega <span class=\"highlight\">com rigor de laboratório</span>.",
+        researchBody1: "A Corvelab investiga problemas de fronteira, transforma hipóteses em protótipos testáveis e leva os resultados para produção.",
+        researchBody2: "Atendemos organizações que precisam de software confiável e infraestrutura técnica capaz de sustentar pesquisa contínua.",
+        researchList: "<li>Pesquisa aplicada orientada a impacto real e validação técnica.</li><li>Arquiteturas de software e IA para ambientes sensíveis e regulados.</li><li>Integração entre modelagem, dados, automação e operação contínua.</li>",
+        researchCard1Tag: "Linha 01",
+        researchCard1Title: "Investigação e experimentação",
+        researchCard1Body: "Modelagem, simulação e experimentação para problemas que ainda não têm solução pronta.",
+        researchCard2Tag: "Linha 02",
+        researchCard2Title: "Do protótipo à plataforma",
+        researchCard2Body: "Protótipos que funcionam viram plataformas. Modelos que validam viram produto.",
+        researchCard3Tag: "Linha 03",
+        researchCard3Title: "Operação em produção",
+        researchCard3Body: "Pipelines, observabilidade e governança para manter inovação rodando.",
+        researchCard4Tag: "Linha 04",
+        researchCard4Title: "Entrega bilíngue",
+        researchCard4Body: "Documentação técnica, interfaces e comunicação institucional em português e inglês.",
+        researchCardLogoTag: "Etimologia",
+        researchCardLogoTitle: "Corve como chamado",
+        researchCardLogoBody: "Corve é o vocativo latino de <em>corvus</em>: a forma usada para chamar o corvo diretamente. Em Corvelab, essa raiz funciona como um chamado ao conhecimento, à observação e ao experimento.",
+        capabilitiesEyebrow: "Capacidades",
+        capabilitiesTitle: "Sete domínios. Uma abordagem.",
+        capabilitiesLead: "Atuação multidisciplinar em setores onde pesquisa, software e precisão técnica precisam caminhar juntos.",
+        sector1Tag: "Domínio 01",
+        sector1Title: "Saúde digital e suporte à decisão clínica",
+        sector1Body: "Plataformas para triagem, gestão assistencial e análise de dados clínicos com integração a ambientes hospitalares.",
+        sector1List: "<li>Alertas preditivos e triagem orientada a dados.</li><li>Fluxo de pacientes, leitos e protocolos assistenciais.</li><li>Integração com prontuários e sistemas hospitalares.</li>",
+        sector2Tag: "Domínio 02",
+        sector2Title: "IA jurídica e automação regulatória",
+        sector2Body: "Sistemas para análise semântica, contratos, jurisprudência, compliance regulatório e apoio operacional no setor jurídico.",
+        sector2List: "<li>Análise automatizada de contratos e documentos.</li><li>Busca semântica em legislação e jurisprudência.</li><li>Monitoramento regulatório e obrigações legais.</li>",
+        sector3Tag: "Domínio 03",
+        sector3Title: "Geociências, geofísica e clima",
+        sector3Body: "Ferramentas de modelagem, visualização e predição para geologia, geofísica, monitoramento atmosférico e análise espacial.",
+        sector3List: "<li>Modelagem de sub-superfície e interpretação sísmica.</li><li>Visualização 3D de dados geológicos e geofísicos.</li><li>Monitoramento climático por sensoriamento remoto.</li>",
+        sector4Tag: "Domínio 04",
+        sector4Title: "Infraestrutura de dados e copilotos inteligentes",
+        sector4Body: "Ambientes de dados, agentes e copilotos para operações empresariais e científicas com governança e privacidade.",
+        sector4List: "<li>Assistentes e agentes especializados para times internos.</li><li>Implantação em nuvem privada ou ambientes controlados.</li><li>Integração com bases, workflows e documentação técnica.</li>",
+        sector5Tag: "Domínio 05",
+        sector5Title: "Simulação numérica e CFD",
+        sector5Body: "Modelagem computacional de escoamentos, calor, dispersão e sistemas multifásicos para operações industriais e científicas.",
+        sector5List: "<li>Reservatórios, dutos e processos industriais.</li><li>Transporte de contaminantes e dispersão atmosférica.</li><li>Otimização assistida por simulação acoplada a IA.</li>",
+        sector6Tag: "Domínio 06",
+        sector6Title: "Bioinformática e análise genômica",
+        sector6Body: "Pipelines e ferramentas para dados biológicos, variantes, transcriptômica, proteínas e análise computacional em biociências.",
+        sector6List: "<li>Análise de variantes, sequências e expressão gênica.</li><li>Predição estrutural e interações moleculares.</li><li>Pipelines reprodutíveis para dados ômicos.</li>",
+        sector7Tag: "Domínio 07",
+        sector7Title: "Computação quântica e algoritmos",
+        sector7Body: "Pesquisa aplicada em métodos híbridos clássico-quânticos para otimização, simulação, segurança e novos modelos computacionais.",
+        sector7List: "<li>Algoritmos quânticos para problemas combinatórios.</li><li>Simulação de materiais e sistemas moleculares.</li><li>Criptografia pós-quântica e protocolos seguros.</li>",
+        complianceEyebrow: "Base legal e operação",
+        complianceTitle: "Empresa de base tecnológica inovadora",
+        complianceBody: "Empresa de base tecnológica com foco em P&D experimental, licenciamento de software e consultoria técnica.",
+        complianceItem1Title: "LC 182/2021",
+        complianceItem1Body: "Referência para enquadramento de empresa inovadora.",
+        complianceItem2Title: "P&D experimental",
+        complianceItem2Body: "Pesquisa em ciências físicas, naturais e aplicadas.",
+        complianceItem3Title: "Software customizável",
+        complianceItem3Body: "Licenciamento, desenvolvimento sob medida e integração.",
+        complianceItem4Title: "Consultoria técnica",
+        complianceItem4Body: "Arquitetura, dados, IA e engenharia para organizações e pesquisa.",
+        contactEyebrow: "Contato",
+        contactTitle: "Tem um problema técnico difícil?",
+        contactLead: "Escreva para andre@corvelab.org para discutir pesquisa aplicada, software, IA, simulação ou novos projetos de inovação.",
+        contactSecondary: "Ver frente de pesquisa",
+        footerSummary: "Um laboratório de engenharia aplicada para organizações que constroem na fronteira técnica.",
+        footerNavTitle: "Navegação",
+        footerFocusTitle: "Áreas",
+        footerFocus1: "IA aplicada",
+        footerFocus2: "P&D experimental",
+        footerFocus3: "Simulação e modelagem",
+        footerFocus4: "Infraestrutura de dados",
+        footerRights: "© 2026 Corvelab. Empresa de base tecnológica inovadora. Todos os direitos reservados."
+      },
+      en: {
+        metaTitle: "Corvelab | Applied engineering lab",
+        metaDescription: "Corvelab designs and delivers software, AI and computational systems for domains where technical precision is not optional.",
+        brandSubline: "Applied engineering lab",
+        navResearch: "Research",
+        navCapabilities: "Capabilities",
+        navCompliance: "Compliance",
+        navContact: "Contact",
+        heroEyebrow: "Corvelab · From hypothesis to production",
+        heroTitle: "Research that becomes software. <span class=\"highlight\">Software that becomes advantage</span>.",
+        heroLead: "We design and deliver software, AI and computational systems for domains where technical precision is not optional.",
+        heroCtaPrimary: "View capabilities",
+        heroCtaSecondary: "Talk to Andre",
+        heroPanelLabel: "How we work",
+        heroPanelTitle: "From paper to product, with laboratory rigor and production-grade engineering.",
+        heroPanelBody1: "We combine experimental research, software architecture and mathematical modeling. What works goes to production. What doesn't becomes documented learning.",
+        heroMetric1Value: "Hypothesis",
+        heroMetric1Label: "Investigation and experimental modeling",
+        heroMetric2Value: "Prototype",
+        heroMetric2Label: "Technical validation before commitment",
+        heroMetric3Value: "Production",
+        heroMetric3Label: "Deploy, observability and continuous operation",
+        researchEyebrow: "Research",
+        researchTitle: "Research, engineering and delivery <span class=\"highlight\">with laboratory rigor</span>.",
+        researchBody1: "Corvelab investigates frontier problems, turns hypotheses into testable prototypes and moves results into production.",
+        researchBody2: "We work with organizations that need reliable software and technical infrastructure capable of sustaining ongoing research.",
+        researchList: "<li>Applied research focused on real impact and technical validation.</li><li>Software and AI architectures for sensitive and regulated environments.</li><li>Integration across modeling, data, automation and continuous operations.</li>",
+        researchCard1Tag: "Track 01",
+        researchCard1Title: "Investigation and experimentation",
+        researchCard1Body: "Modeling, simulation and experimentation for problems that don't have a ready-made solution.",
+        researchCard2Tag: "Track 02",
+        researchCard2Title: "From prototype to platform",
+        researchCard2Body: "Prototypes that work become platforms. Models that validate become products.",
+        researchCard3Tag: "Track 03",
+        researchCard3Title: "Production operations",
+        researchCard3Body: "Pipelines, observability and governance to keep innovation running.",
+        researchCard4Tag: "Track 04",
+        researchCard4Title: "Bilingual delivery",
+        researchCard4Body: "Technical documentation, interfaces and institutional communication in Portuguese and English.",
+        researchCardLogoTag: "Etymology",
+        researchCardLogoTitle: "Corve as a call",
+        researchCardLogoBody: "Corve is the Latin vocative of <em>corvus</em>: the form used to address the raven directly. In Corvelab, that root becomes a call to knowledge, observation and experiment.",
+        capabilitiesEyebrow: "Capabilities",
+        capabilitiesTitle: "Seven domains. One approach.",
+        capabilitiesLead: "Multidisciplinary work for sectors where research, software and technical precision must advance together.",
+        sector1Tag: "Domain 01",
+        sector1Title: "Digital health and clinical decision support",
+        sector1Body: "Platforms for triage, care management and clinical data analysis integrated with hospital environments.",
+        sector1List: "<li>Predictive alerts and data-driven triage.</li><li>Patient flow, bed management and care protocols.</li><li>Integration with records and hospital systems.</li>",
+        sector2Tag: "Domain 02",
+        sector2Title: "Legal AI and regulatory automation",
+        sector2Body: "Systems for semantic analysis, contracts, case law, regulatory compliance and operational support in legal environments.",
+        sector2List: "<li>Automated contract and document analysis.</li><li>Semantic search across legislation and case law.</li><li>Regulatory monitoring and legal obligations.</li>",
+        sector3Tag: "Domain 03",
+        sector3Title: "Geoscience, geophysics and climate",
+        sector3Body: "Modeling, visualization and prediction tools for geology, geophysics, atmospheric monitoring and spatial analysis.",
+        sector3List: "<li>Subsurface modeling and seismic interpretation.</li><li>3D visualization of geological and geophysical data.</li><li>Climate monitoring through remote sensing.</li>",
+        sector4Tag: "Domain 04",
+        sector4Title: "Data infrastructure and intelligent copilots",
+        sector4Body: "Data environments, agents and copilots for enterprise and scientific operations with governance and privacy built in.",
+        sector4List: "<li>Specialized assistants and agents for internal teams.</li><li>Deployment in private cloud or controlled environments.</li><li>Integration with datasets, workflows and technical documentation.</li>",
+        sector5Tag: "Domain 05",
+        sector5Title: "Numerical simulation and CFD",
+        sector5Body: "Computational modeling of flows, heat, dispersion and multiphase systems for industrial and scientific operations.",
+        sector5List: "<li>Reservoirs, pipelines and industrial processes.</li><li>Contaminant transport and atmospheric dispersion.</li><li>Optimization supported by AI-coupled simulation.</li>",
+        sector6Tag: "Domain 06",
+        sector6Title: "Bioinformatics and genomic analysis",
+        sector6Body: "Pipelines and tools for biological data, variants, transcriptomics, proteins and computational analysis in life sciences.",
+        sector6List: "<li>Variant, sequence and gene expression analysis.</li><li>Structural prediction and molecular interactions.</li><li>Reproducible pipelines for omics data.</li>",
+        sector7Tag: "Domain 07",
+        sector7Title: "Quantum computing and algorithms",
+        sector7Body: "Applied research in hybrid classical-quantum methods for optimization, simulation, security and new computational models.",
+        sector7List: "<li>Quantum algorithms for combinatorial problems.</li><li>Simulation of materials and molecular systems.</li><li>Post-quantum cryptography and secure protocols.</li>",
+        complianceEyebrow: "Legal basis and operations",
+        complianceTitle: "Innovative technology-based company",
+        complianceBody: "Technology-based company focused on experimental R&D, software licensing and technical consulting.",
+        complianceItem1Title: "LC 182/2021",
+        complianceItem1Body: "Reference framework for innovative company positioning.",
+        complianceItem2Title: "Experimental R&D",
+        complianceItem2Body: "Research in physical, natural and applied sciences.",
+        complianceItem3Title: "Customizable software",
+        complianceItem3Body: "Licensing, tailored development and integration.",
+        complianceItem4Title: "Technical consulting",
+        complianceItem4Body: "Architecture, data, AI and engineering for organizations and research teams.",
+        contactEyebrow: "Contact",
+        contactTitle: "Have a hard technical problem?",
+        contactLead: "Write to andre@corvelab.org to discuss applied research, software, AI, simulation or new innovation projects.",
+        contactSecondary: "See research focus",
+        footerSummary: "An applied engineering lab for organizations building at the technical frontier.",
+        footerNavTitle: "Navigation",
+        footerFocusTitle: "Focus areas",
+        footerFocus1: "Applied AI",
+        footerFocus2: "Experimental R&D",
+        footerFocus3: "Simulation and modeling",
+        footerFocus4: "Data infrastructure",
+        footerRights: "© 2026 Corvelab. Innovative technology-based company. All rights reserved."
+      }
+    };
+
+    const languageButtons = Array.from(document.querySelectorAll("[data-lang-toggle]"));
+    const descriptionMeta = document.querySelector("meta[name='description']");
+    const inlineLogoDataUri = "data:image/png;base64,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";
+
+    document.querySelectorAll("[data-inline-logo]").forEach((image) => {
+      image.src = inlineLogoDataUri;
+    });
+
+    function detectPreferredLanguage() {
+      try {
+        const stored = window.localStorage.getItem("corvelab-lang");
+        if (stored === "pt" || stored === "en") {
+          return stored;
+        }
+      } catch (error) {
+        // Local storage can be unavailable in restricted contexts.
+      }
+
+      const locales = Array.isArray(navigator.languages) && navigator.languages.length
+        ? navigator.languages
+        : [navigator.language || "pt-BR"];
+
+      return locales.some((locale) => /^pt(?:-|$)/i.test(locale || "")) ? "pt" : "en";
+    }
+
+    function applyLanguage(lang) {
+      const selected = translations[lang] ? lang : "pt";
+      const copy = translations[selected];
+
+      document.documentElement.lang = selected === "pt" ? "pt-BR" : "en";
+      document.title = copy.metaTitle;
+      descriptionMeta.setAttribute("content", copy.metaDescription);
+
+      document.querySelectorAll("[data-i18n]").forEach((node) => {
+        const key = node.dataset.i18n;
+        if (Object.prototype.hasOwnProperty.call(copy, key)) {
+          node.textContent = copy[key];
+        }
+      });
+
+      document.querySelectorAll("[data-i18n-html]").forEach((node) => {
+        const key = node.dataset.i18nHtml;
+        if (Object.prototype.hasOwnProperty.call(copy, key)) {
+          node.innerHTML = copy[key];
+        }
+      });
+
+      languageButtons.forEach((button) => {
+        const active = button.dataset.langToggle === selected;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+    }
+
+    const initialLanguage = detectPreferredLanguage();
+    applyLanguage(initialLanguage);
+
+    languageButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const lang = button.dataset.langToggle === "en" ? "en" : "pt";
+        try {
+          window.localStorage.setItem("corvelab-lang", lang);
+        } catch (error) {
+          // Ignore storage failures and still apply the selection.
+        }
+        applyLanguage(lang);
+      });
+    });
+  </script>
+</body>
+</html>
